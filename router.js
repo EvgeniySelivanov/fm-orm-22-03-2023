@@ -1,6 +1,15 @@
 const { Router } = require('express');
-const router=Router();
-//method & controllers
-router.get('/test',()=>{});
+const UserController = require('./controllers/user.controller');
+const router = Router();
 
-module.exports=router;
+//method & controllers
+//http://localhost:3000/api/test
+//router.get('/test', ()=>{})
+
+//users
+//http://localhost:3000/api
+router.post('/users', UserController.createUser);
+router.get('/users', UserController.getAllUsers);
+
+
+module.exports = router;
