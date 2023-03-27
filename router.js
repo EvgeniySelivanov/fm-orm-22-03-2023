@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const UserController = require('./controllers/user.controller');
+const TaskController = require('./controllers/task.controller');
+
 const router = Router();
 
 //method & controllers
@@ -8,14 +10,15 @@ const router = Router();
 
 //users
 //http://localhost:3000/api
+
 router.post('/users', UserController.createUser);
 router.get('/users', UserController.getAllUsers);
+router.get('/users/:idUser', UserController.getUser);
 router.patch('/users/:idUser', UserController.updateUser);
 router.patch('/users/instance/:idUser', UserController.updateUserInstance);
 router.delete('/users/:idUser', UserController.deleteUser);
 
 
-
-
+router.post('/users/:idUser/tasks', TaskController.createTask);
 
 module.exports = router;

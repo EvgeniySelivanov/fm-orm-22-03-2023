@@ -79,6 +79,17 @@ module.exports.deleteUser = async (req, res, next) => {
 };
 
 
+module.exports.getUser = async (req, res, next) => {
+  try {
+    const {params:{idUser}}=req;
+    const user = await User.findByPk(idUser);
+    user.password=undefined;
+    res.status(200).send({ data: user })
+  } catch (error) {
+    next(error);
+  }
+};
+
 // module.exports.createUser = async (req, res, next) => {
 //   try {
 //   } catch (error) {

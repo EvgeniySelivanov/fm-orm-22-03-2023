@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+     User.hasMany(
+      models.Task,
+      {foreignKey:'userId'}
+      )
     }
   }
   User.init(
@@ -49,6 +52,9 @@ module.exports = (sequelize, DataTypes) => {
         validate:{
           notNull: true,  
           notEmpty: true,
+        },
+        set(value){
+          this.setDataValue('password','password_hash');
         }
        },
       birthday: { 
