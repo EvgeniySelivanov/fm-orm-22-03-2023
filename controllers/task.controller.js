@@ -38,3 +38,16 @@ module.exports.deleteUserTask = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports.updateTask = async (req, res, next) => {
+  try {
+    const { body, taskInstance } = req;
+      const taskUpdated = await taskInstance.update(body, {
+      returning: true
+    })
+    res.status(202).send({ data: taskUpdated })
+
+  } catch (error) {
+    next(error);
+  }
+};

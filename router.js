@@ -24,8 +24,8 @@ router.delete('/users/:idUser', UserController.deleteUser);
 // router.post('/users/:idUser/tasks', TaskController.createTask);
 router.post('/users/:idUser/tasks', checkUser, TaskController.createTask);
 router.get('/users/:idUser/tasks', checkUser, TaskController.getUserTasks);
-
 router.delete('/users/:idUser/tasks/:idTask', checkUser, checkTask,TaskController.deleteUserTask);
+router.patch('/users/:idUser/tasks/:idTask', checkUser, checkTask,TaskController.updateTask);
 
 
 
