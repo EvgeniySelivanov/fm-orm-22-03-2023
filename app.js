@@ -1,6 +1,6 @@
 const express = require('express');
 const { ValidationError } = require('sequelize');
-const router = require('./router');
+const router = require('./routes');
 const app = express();
 
 app.use(express.json());
