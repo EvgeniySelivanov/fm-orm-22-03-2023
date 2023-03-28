@@ -10,6 +10,18 @@ const { Task } = require('../models');
 //   }
 // }
 
+
+module.exports.getAllTasks = async (req, res, next) => {
+  try {
+    const { paginate = {} } = req;
+    const tasks = await Task.findAll({...paginate});
+    res.status(200).send({ data: tasks })
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 module.exports.createTask = async (req, res, next) => {
   try {
     const { userInstance, body } = req;
@@ -42,7 +54,7 @@ module.exports.deleteUserTask = async (req, res, next) => {
 module.exports.updateTask = async (req, res, next) => {
   try {
     const { body, taskInstance } = req;
-      const taskUpdated = await taskInstance.update(body, {
+    const taskUpdated = await taskInstance.update(body, {
       returning: true
     })
     res.status(202).send({ data: taskUpdated })
