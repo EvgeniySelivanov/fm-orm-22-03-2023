@@ -19,8 +19,10 @@ app.use((error,req,res,next)=>{
 
 
 app.use((error,req,res,next)=>{
-  res.status(500).send({
-    errors:[{title:error.message}]
+  console.dir(error);
+  const status=error.status||500
+  res.status(status).send({
+    errors:[{title:error.message||'server dead'}]
   })
 });
 

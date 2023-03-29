@@ -1,5 +1,6 @@
 const {User}=require('../models');
 
+
 module.exports.checkUser=async(req,res,next)=>{
   try {
     const {params:{idUser}}=req;
