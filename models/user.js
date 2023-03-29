@@ -9,9 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-     User.hasMany(
-      models.Task,
-      {foreignKey:'userId'}
+      User.hasMany(
+        models.Task,
+        { foreignKey: 'userId' }
+      );
+      User.belongsToMany(
+        models.Group,
+        {
+          through: 'users_to_groups',
+          foreignKey: 'userId'
+        }
       )
     }
   }
@@ -21,57 +28,57 @@ module.exports = (sequelize, DataTypes) => {
         field: 'first_name',
         type: DataTypes.STRING(32),
         allowNull: false,
-        validate:{
-          notNull: true,  
+        validate: {
+          notNull: true,
           notEmpty: true,
         }
       },
-      lastName: { 
+      lastName: {
         field: 'last_name',
-        type: DataTypes.STRING(64), 
-        allowNull: false ,
-        validate:{
-          notNull: true,  
+        type: DataTypes.STRING(64),
+        allowNull: false,
+        validate: {
+          notNull: true,
           notEmpty: true,
         }
       },
-      email: { 
+      email: {
         unique: true,
-        type: DataTypes.STRING, 
+        type: DataTypes.STRING,
         allowNull: false,
-        validate:{
-          notNull: true,  
+        validate: {
+          notNull: true,
           notEmpty: true,
           isEmail: true,
         }
       },
-      password: { 
+      password: {
         field: 'password_hash',
         type: DataTypes.TEXT,
         allowNull: false,
-        validate:{
-          notNull: true,  
+        validate: {
+          notNull: true,
           notEmpty: true,
         },
-        set(value){
-          this.setDataValue('password','password_hash');
+        set(value) {
+          this.setDataValue('password', 'password_hash');
         }
-       },
-      birthday: { 
+      },
+      birthday: {
         type: DataTypes.DATEONLY,
-        validate:{
+        validate: {
           isDate: true,
           //isBefore: new Date().toISOString()
-          isValidDate(value){
-            if(isAfter(new Date(value), new Date())){
+          isValidDate(value) {
+            if (isAfter(new Date(value), new Date())) {
               throw new Error('check birthday')
             }
           }
         }
       },
-      isMale: { 
+      isMale: {
         field: 'is_male',
-        type: DataTypes.BOOLEAN 
+        type: DataTypes.BOOLEAN
       },
     },
     {
