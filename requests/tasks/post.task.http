@@ -1,6 +1,6 @@
-POST  http://localhost:3000/api/tasks/users/1 HTTP/1.1
+POST  http://localhost:3000/api/tasks/users/2 HTTP/1.1
 Content-Type: application/json
 
 {
-  "content":"my  test task userId=1"
+  "content":"tets tesk user 2"
 }

@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const { User } = require('../models');
 
 const checkBody=(body)=>_.pick(body,['firstName','lastName','email','password','birthday','isMale']);
+
 module.exports.createUser = async (req, res, next) => {
   try {
     const { body } = req;
@@ -17,21 +18,16 @@ module.exports.createUser = async (req, res, next) => {
     next(error);
   }
 };
+
+
 module.exports.getAllUsers = async (req, res, next) => {
+
   try {
     const { paginate = {} } = req;
     const users = await User.findAll({
       ...paginate,
       attributes: { exclude: ['password'] },
-      //attributes: ['id','email',['first_name','name']]
-      // where:{
-      //   // firstName:'Brad',
-      //   // lastName:'Pitt'
-      //   // [Op.or]:{
-      //   //   id:{[Op.ne]:[1]}
-      //   // }
-      // }
-    })
+          })
     if (!users) {
       return next(createError(404, 'Not Found'));
     }
@@ -93,7 +89,6 @@ module.exports.deleteUser = async (req, res, next) => {
   }
 };
 
-
 module.exports.getUser = async (req, res, next) => {
   try {
     const { params: { idUser } } = req;
@@ -108,9 +103,3 @@ module.exports.getUser = async (req, res, next) => {
   }
 };
 
-// module.exports.createUser = async (req, res, next) => {
-//   try {
-//   } catch (error) {
-//     next(error);
-//   }
-// };

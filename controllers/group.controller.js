@@ -6,8 +6,8 @@ const { User } = require('../models');
 
 module.exports.createUserGroup = async (req, res, next) => {
   try {
-    const { body } = req;
-    const values = _.pick(body, ['name', 'imagePath', 'description', 'isAdult']);
+    const { body, file: { filename } } = req;
+    const values = _.pick(body, ['name', 'description', 'isAdult']);
     const group = await Group.create(values);
     if (!group) {
       return next(createError(400, 'Bad request'))
@@ -19,11 +19,18 @@ module.exports.createUserGroup = async (req, res, next) => {
     }
     await group.addUser(user);
 
-    res.status(201).send({ data: group });
+    const updatedGroup = await Group.update(
+      { imagePath: filename },
+      {
+        where: { id: group.id },
+        returning: true
+      })
+    res.status(201).send({ data: group, data: updatedGroup });
   } catch (error) {
     next(error);
   }
 };
+
 module.exports.getUserGroups = async (req, res, next) => {
   try {
     const { params: { idUser } } = req;
@@ -49,7 +56,7 @@ module.exports.addImageGroup = async (req, res, next) => {
       params: { idGroup },
       file: { filename }
     } = req;
-    const [rowCount,updatedGroup] = await Group.update(
+    const [rowCount, updatedGroup] = await Group.update(
       { imagePath: filename },
       {
         where: { id: idGroup },

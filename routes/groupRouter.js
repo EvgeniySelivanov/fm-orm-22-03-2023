@@ -21,9 +21,9 @@ const upload = multer({ storage })
 
 const groupRouter = Router();
 
-groupRouter.post('/', GroupController.createUserGroup);
+groupRouter.post('/image/name/userId', upload.single('image'), GroupController.createUserGroup);
 
-//PATCH http://localhost:3000/api/groups/2/image HTTP1/1
+
 groupRouter.patch('/:idGroup/image', upload.single('image'), GroupController.addImageGroup);
 
 
