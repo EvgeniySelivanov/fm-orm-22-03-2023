@@ -2,7 +2,7 @@ const express = require('express');
 const { ValidationError } = require('sequelize');
 const router = require('./routes');
 const app = express();
-
+app.use(express.static('public'));
 app.use(express.json());
 //http://localhost:3000/api
 app.use('/api', router);

@@ -1,12 +1,14 @@
 const createError = require('http-errors');
+const _=require('lodash');
 const { Op } = require("sequelize");
 const { User } = require('../models');
 
-
+const checkBody=(body)=>_.pick(body,['firstName','lastName','email','password','birthday','isMale']);
 module.exports.createUser = async (req, res, next) => {
   try {
     const { body } = req;
-    const createdUser = await User.create(body);
+    const value=checkBody(body);
+    const createdUser = await User.create(value);
     if (!createdUser) {
       return next(createError(400, 'Check your data'));
     }
@@ -42,7 +44,8 @@ module.exports.getAllUsers = async (req, res, next) => {
 module.exports.updateUser = async (req, res, next) => {
   try {
     const { body, params: { idUser } } = req;
-    const [rowsCount, [updatedUser]] = await User.update(body, {
+    const value=checkBody(body);
+    const [rowsCount, [updatedUser]] = await User.update(value, {
       where: {
         id: {
           [Op.eq]: idUser
@@ -62,8 +65,9 @@ module.exports.updateUser = async (req, res, next) => {
 module.exports.updateUserInstance = async (req, res, next) => {
   try {
     const { body, params: { idUser } } = req;
+    const value=checkBody(body);
     const userInstance = await User.findByPk(idUser);
-    const userUpdated = await userInstance.update(body, {
+    const userUpdated = await userInstance.update(value, {
       returning: true
     });
     if (!userUpdated) {

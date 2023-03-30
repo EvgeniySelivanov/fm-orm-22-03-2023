@@ -12,7 +12,7 @@ module.exports.getAllTasks = async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}
+};
 module.exports.createTask = async (req, res, next) => {
   try {
     const { userInstance, body } = req;
@@ -24,7 +24,7 @@ module.exports.createTask = async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}
+};
 module.exports.getUserTasks = async (req, res, next) => {
   try {
     const { userInstance ,paginate={}} = req;
