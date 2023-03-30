@@ -37,6 +37,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       type: DataTypes.STRING
+    },
+    isAdult:{
+      type:DataTypes.BOOLEAN,
+      field:'is_adult',
+      autoNull:  false,
+      defaultValue:true
     }
   }, {
     sequelize,
