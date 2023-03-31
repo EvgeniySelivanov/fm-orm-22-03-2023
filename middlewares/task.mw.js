@@ -9,8 +9,8 @@ module.exports.checkTask = async (req, res, next) => {
       return next(createError(404, 'Not found'));
     }
     req.taskInstance = taskInstance;
-next();
+    next();
   } catch (error) {
-    next(error)
+    next(error);
   }
 }
