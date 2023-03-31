@@ -69,3 +69,39 @@ module.exports.addImageGroup = async (req, res, next) => {
   }
 };
 
+module.exports.addUserToGroup = async (req, res, next) => {
+  try {
+    //get id user & group
+    const { body: { userId } } = req;
+    const { params: { idGroup } } = req;
+    //find by pk group
+    const group = await Group.findByPk(idGroup);
+    //handle errors
+    if (!group) {
+      return next(createError(404, 'group not found'));
+    }
+    //find by pk user
+    const user = await User.findByPk(userId);
+    //handle errors
+    if (!user) {
+      return next(createError(404, 'user not found'));
+    }
+
+    //add user to group
+    await group.addUser(user);
+    //send group with users
+    const groupWithUser = await Group.findByPk(idGroup, {
+      include: {
+        model: User,
+        attributes: ['email'],
+        through: {
+          attributes: []
+        }
+      }
+    });
+    // const groupWithUser = await group.getUsers();
+    res.status(200).send({ data: groupWithUser });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -3,9 +3,7 @@ const { Router } = require('express');
 const multer = require('multer');
 const GroupController = require('../controllers/group.controller');
 
-// const upload = multer({
-//   dest:path.resolve(__dirname,'../public/images'), 
-// });
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -22,7 +20,7 @@ const upload = multer({ storage })
 const groupRouter = Router();
 
 groupRouter.post('/image/name/userId', upload.single('image'), GroupController.createUserGroup);
-
+groupRouter.post('/:idGroup',GroupController.addUserToGroup)
 
 groupRouter.patch('/:idGroup/image', upload.single('image'), GroupController.addImageGroup);
 
