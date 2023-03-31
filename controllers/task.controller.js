@@ -2,15 +2,15 @@ const createError = require('http-errors');
 const _ = require('lodash');
 const { Task } = require('../models');
 
-const checkBody = (body) => _.pick(body, ['content']);
+const checkBody = (body) => _.pick(body, ['content','isDone','deadLine']);
 
 module.exports.getAllTasks = async (req, res, next) => {
   try {
     const { paginate = {} } = req;
     const tasks = await Task.findAll({ ...paginate });
-    if (!tasks) {
-      return next(createError(404, 'Not found'));
-    }
+    // if (!tasks) {
+    //   return next(createError(404, 'Not found'));
+    // }
     res.status(200).send({ data: tasks });
 
   } catch (error) {

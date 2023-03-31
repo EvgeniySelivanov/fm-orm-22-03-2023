@@ -10,7 +10,7 @@ module.exports.checkUser = async (req, res, next) => {
       return next(createError(404, 'Not found'));
     }
     req.userInstance = userInstance;
-
+    next();
   } catch (error) {
     next(error)
   }
