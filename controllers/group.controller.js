@@ -8,7 +8,7 @@ module.exports.createUserGroup = async (req, res, next) => {
   try {
     const { body, file: { filename } } = req;
     const values = _.pick(body, ['name', 'description', 'isAdult']);
-    const group = await Group.create(values);
+    const group = await Group.create({...values,imagePath:filename});
     if (!group) {
       return next(createError(400, 'Bad request'))
     }
@@ -19,13 +19,13 @@ module.exports.createUserGroup = async (req, res, next) => {
     }
     await group.addUser(user);
 
-    const updatedGroup = await Group.update(
-      { imagePath: filename },
-      {
-        where: { id: group.id },
-        returning: true
-      })
-    res.status(201).send({ data: group, data: updatedGroup });
+    // const updatedGroup = await Group.update(
+    //   { imagePath: filename },
+    //   {
+    //     where: { id: group.id },
+    //     returning: true
+    //   })
+    res.status(201).send({ data: group});
   } catch (error) {
     next(error);
   }
